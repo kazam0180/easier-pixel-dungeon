@@ -64,6 +64,24 @@ public class AboutScene extends PixelScene {
 		Component content = list.content();
 		content.clear();
 
+		//*** Easier Pixel Dungeon Credits ***
+
+		CreditsBlock epd = new CreditsBlock(true, Window.TITLE_COLOR,
+				"Easier Pixel Dungeon",
+				null,
+				"This is a fan-made _modified version_ of Shattered Pixel Dungeon, created " +
+				"to make the game easier and more accessible to play.\n" +
+				"It is based on Shattered Pixel Dungeon's open source code by _Evan Debenham_, " +
+				"and is not affiliated with Shattered Pixel or Evan Debenham.",
+				"github.com/kazam0180/easier-pixel-dungeon",
+				"https://github.com/kazam0180/easier-pixel-dungeon");
+		if (landscape()){
+			epd.setRect((w - fullWidth)/2f - 6, insets.top + 10, fullWidth, 0);
+		} else {
+			epd.setRect((w - fullWidth)/2f, insets.top + 6, fullWidth, 0);
+		}
+		content.add(epd);
+
 		//*** Shattered Pixel Dungeon Credits ***
 
 		CreditsBlock shpx = new CreditsBlock(true, Window.SHPX_COLOR,
@@ -73,9 +91,9 @@ public class AboutScene extends PixelScene {
 				"ShatteredPixel.com",
 				"https://ShatteredPixel.com");
 		if (landscape()){
-			shpx.setRect((w - fullWidth)/2f - 6, insets.top + 10, 120, 0);
+			shpx.setRect((w - fullWidth)/2f - 6, epd.bottom() + 8, 120, 0);
 		} else {
-			shpx.setRect((w - fullWidth)/2f, insets.top + 6, 120, 0);
+			shpx.setRect((w - fullWidth)/2f, epd.bottom() + 8, 120, 0);
 		}
 		content.add(shpx);
 

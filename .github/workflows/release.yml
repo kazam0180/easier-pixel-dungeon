@@ -75,7 +75,15 @@ jobs:
       - name: Package Linux executables
         run: |
           cd desktop/build/jpackage
-          zip -r "Shattered Pixel Dungeon Linux.zip" "Shattered Pixel Dungeon"
+          zip -r "Easier Pixel Dungeon Linux.zip" "Easier Pixel Dungeon"
+
+      - name: Build Linux AppImage
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE":/work \
+            -w /work \
+            archlinux:latest \
+            bash /work/.github/scripts/build-appimage.sh
 
       - name: Gather release artifacts
         run: |
@@ -83,7 +91,10 @@ jobs:
           cp android/build/outputs/apk/release/*.apk dist/
           cp android/build/outputs/bundle/release/*.aab dist/
           cp desktop/build/libs/*.jar dist/
-          cp "desktop/build/jpackage/Shattered Pixel Dungeon Linux.zip" dist/
+          cp "desktop/build/jpackage/Easier Pixel Dungeon Linux.zip" dist/
+          for f in "$GITHUB_WORKSPACE"/*.AppImage; do
+            cp "$f" dist/
+          done
           ls -la dist
 
       - name: Create GitHub Release
