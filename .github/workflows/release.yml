@@ -13,8 +13,6 @@ jobs:
   release:
     name: Build Linux & Android
     runs-on: ubuntu-latest
-    env:
-      ANDROID_HOME: /usr/local/lib/android/sdk
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -26,19 +24,23 @@ jobs:
           java-version: '17'
           cache: gradle
 
-      - name: Cache Android SDK components
+      - name: Set Android SDK root
+        run: |
+          echo "ANDROID_HOME=$HOME/android-sdk" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$HOME/android-sdk" >> "$GITHUB_ENV"
+
+      - name: Cache Android SDK
         uses: actions/cache@v6
         with:
-          path: |
-            ${{ env.ANDROID_HOME }}/platforms
-            ${{ env.ANDROID_HOME }}/build-tools
-            ${{ env.ANDROID_HOME }}/licenses
+          path: ${{ env.ANDROID_HOME }}
           key: android-sdk-${{ runner.os }}-${{ hashFiles('build.gradle', 'android/build.gradle') }}
           restore-keys: |
             android-sdk-${{ runner.os }}-
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools platforms;android-36 build-tools;36.0.0'
 
       - name: Determine release tag
         run: |
