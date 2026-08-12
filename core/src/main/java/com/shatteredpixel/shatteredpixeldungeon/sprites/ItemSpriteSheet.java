@@ -134,7 +134,7 @@ public class ItemSpriteSheet {
 	}
 
 	private static final int MISC_CONSUMABLE =                              xy(1, 4);   //32 slots
-	public static final int ANKH            = MISC_CONSUMABLE +0;
+	public static final int PEARL           = MISC_CONSUMABLE +0;
 	public static final int STYLUS          = MISC_CONSUMABLE +1;
 	public static final int SEAL            = MISC_CONSUMABLE +2;
 	public static final int TORCH           = MISC_CONSUMABLE +3;
@@ -159,7 +159,7 @@ public class ItemSpriteSheet {
 	public static final int TRINKET_CATA    = MISC_CONSUMABLE +22;
 
 	static{
-		assignItemRect(ANKH,            10, 16);
+		assignItemRect(PEARL,            14, 14);
 		assignItemRect(STYLUS,          12, 13);
 		
 		assignItemRect(SEAL,            13, 13);

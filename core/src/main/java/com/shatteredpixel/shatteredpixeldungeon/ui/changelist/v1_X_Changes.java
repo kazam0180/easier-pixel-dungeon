@@ -880,7 +880,7 @@ public class v1_X_Changes {
 				"A new rare variant has been added for necromancers: _Spectral Necromancers!_\n\n" +
 				"These necromancers don't care for skeletons, and prefer to summon a bunch of wraiths instead! Dealing with their horde might be tricky, but you'll be rewarded with a scroll of remove curse."));
 
-		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.ANKH), "new ankh mechanics",
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.PEARL), "new ankh mechanics",
 				"_Regular Ankhs_ have been totally redesigned, and now give the player a chance to save all of their equipment! Be careful though, you'll have to fight your way back to your lost gear.\n\n" +
 				"_Blessed Ankhs_ have received comparatively minor changes. In addition to the resurrection effect, these ankhs now also give the player 3 turns of invulnerability. This should help give players a moment to heal up after being revived."));
 

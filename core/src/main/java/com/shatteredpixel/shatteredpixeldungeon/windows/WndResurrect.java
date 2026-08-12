@@ -130,6 +130,15 @@ public class WndResurrect extends Window {
 
 		ankh.detach(Dungeon.hero.belongings.backpack);
 
+		//keep all currently equipped gear (weapon, armor, and accessories)
+		com.shatteredpixel.shatteredpixeldungeon.actors.hero.Belongings stuff = Dungeon.hero.belongings;
+		Item[] equipped = {stuff.weapon, stuff.armor, stuff.artifact, stuff.misc, stuff.ring, stuff.ring2};
+		for (Item i : equipped){
+			if (i != null){
+				i.keptThoughLostInvent = true;
+			}
+		}
+
 		if (btnItem1.item() != null){
 			btnItem1.item().keptThoughLostInvent = true;
 		}

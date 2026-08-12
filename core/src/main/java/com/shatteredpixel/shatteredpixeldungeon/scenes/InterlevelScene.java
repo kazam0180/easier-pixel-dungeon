@@ -662,6 +662,8 @@ public class InterlevelScene extends PixelScene {
 			if (Dungeon.levelHasBeenGenerated(Dungeon.depth, Dungeon.branch)) {
 				level = Dungeon.loadLevel( GamesInProgress.curSlot );
 			} else {
+				//identify all unknown items when going down to a newly generated floor
+				Dungeon.hero.belongings.identify();
 				level = Dungeon.newLevel();
 			}
 

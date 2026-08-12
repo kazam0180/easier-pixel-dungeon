@@ -234,6 +234,7 @@ public class Trinity extends ArmorAbility {
 					@Override
 					protected void onClick() {
 						if ((Dungeon.hero.belongings.ring() != null && Dungeon.hero.belongings.ring().getClass().equals(spiritForm.getClass()))
+								|| (Dungeon.hero.belongings.ring2() != null && Dungeon.hero.belongings.ring2().getClass().equals(spiritForm.getClass()))
 								|| (Dungeon.hero.belongings.misc() != null && Dungeon.hero.belongings.misc().getClass().equals(spiritForm.getClass()))
 								|| (Dungeon.hero.belongings.artifact() != null && Dungeon.hero.belongings.artifact().getClass().equals(spiritForm.getClass()))){
 							GLog.w(Messages.get(Trinity.class, "no_duplicate"));
