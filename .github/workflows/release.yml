@@ -17,7 +17,7 @@ jobs:
       ANDROID_HOME: /usr/local/lib/android/sdk
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up JDK
         uses: actions/setup-java@v5
@@ -28,7 +28,7 @@ jobs:
           cache-jdk: true
 
       - name: Cache Android SDK components
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ${{ env.ANDROID_HOME }}/platforms
@@ -118,3 +118,4 @@ jobs:
           name: Release ${{ env.RELEASE_TAG }}
           generate_release_notes: true
           files: dist/*
+
