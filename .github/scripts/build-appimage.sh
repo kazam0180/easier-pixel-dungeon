@@ -10,10 +10,9 @@ echo "==> [AppImage] Installing dependencies"
 pacman -S --noconfirm --needed \
 	base-devel \
 	wget \
-	xvfb \
+	xorg-server-xvfb \
 	strace \
 	patchelf \
-	mesa \
 	libpulse \
 	libxkbcommon \
 	wayland
@@ -37,6 +36,8 @@ export LD_LIBRARY_PATH="$APPIMAGE_APPDIR/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH
 exec "$APPIMAGE_APPDIR/lib/shatteredpd/bin/Easier Pixel Dungeon" "$@"
 EOF
 chmod +x /work/AppDir/bin/shatteredpd
+
+./get-debloated-pkgs.sh --add-common --prefer-nano
 
 echo "==> [AppImage] Deploying with quick-sharun"
 cd /work
