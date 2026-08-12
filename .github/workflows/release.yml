@@ -13,6 +13,8 @@ jobs:
   release:
     name: Build Linux & Android
     runs-on: ubuntu-latest
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,6 +25,18 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: gradle
+          cache-jdk: true
+
+      - name: Cache Android SDK components
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ env.ANDROID_HOME }}/platforms
+            ${{ env.ANDROID_HOME }}/build-tools
+            ${{ env.ANDROID_HOME }}/licenses
+          key: android-sdk-${{ runner.os }}-${{ hashFiles('build.gradle', 'android/build.gradle') }}
+          restore-keys: |
+            android-sdk-${{ runner.os }}-
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
