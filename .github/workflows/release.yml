@@ -36,19 +36,35 @@ jobs:
           fi
           echo "Building release for tag: ${RELEASE_TAG}"
 
+      - name: Require Android signing credentials
+        run: |
+          if [ -z "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
+            echo "::error::ANDROID_KEYSTORE_BASE64 secret is required to produce a signed release APK. Add it to the repository secrets and retry."
+            exit 1
+          fi
+
       - name: Set up Android signing
-        if: env.ANDROID_KEYSTORE_BASE64 != ''
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
         run: |
           echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/keystore.jks"
           echo "ANDROID_KEYSTORE_FILE=$RUNNER_TEMP/keystore.jks" >> "$GITHUB_ENV"
-          echo "ANDROID_KEYSTORE_PASSWORD=${{ secrets.ANDROID_KEYSTORE_PASSWORD }}" >> "$GITHUB_ENV"
-          echo "ANDROID_KEY_ALIAS=${{ secrets.ANDROID_KEY_ALIAS }}" >> "$GITHUB_ENV"
-          echo "ANDROID_KEY_PASSWORD=${{ secrets.ANDROID_KEY_PASSWORD }}" >> "$GITHUB_ENV"
+          echo "ANDROID_KEYSTORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD" >> "$GITHUB_ENV"
+          echo "ANDROID_KEY_ALIAS=$ANDROID_KEY_ALIAS" >> "$GITHUB_ENV"
+          echo "ANDROID_KEY_PASSWORD=$ANDROID_KEY_PASSWORD" >> "$GITHUB_ENV"
 
       - name: Build Android release APK & AAB
         run: ./gradlew :android:assembleRelease :android:bundleRelease --no-daemon
+
+      - name: Verify Android APK is signed
+        run: |
+          APK=$(ls android/build/outputs/apk/release/*.apk | head -n1)
+          echo "Verifying signature of: $APK"
+          BUILD_TOOLS=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -n1)
+          "$BUILD_TOOLS"/apksigner verify --print-certs "$APK"
 
       - name: Build Linux desktop release JAR
         run: ./gradlew :desktop:release --no-daemon
@@ -64,10 +80,10 @@ jobs:
       - name: Gather release artifacts
         run: |
           mkdir -p dist
-          cp android/build/outputs/apk/release/*.apk dist/ 2>/dev/null || true
-          cp android/build/outputs/bundle/release/*.aab dist/ 2>/dev/null || true
-          cp desktop/build/libs/*.jar dist/ 2>/dev/null || true
-          cp "desktop/build/jpackage/Shattered Pixel Dungeon Linux.zip" dist/ 2>/dev/null || true
+          cp android/build/outputs/apk/release/*.apk dist/
+          cp android/build/outputs/bundle/release/*.aab dist/
+          cp desktop/build/libs/*.jar dist/
+          cp "desktop/build/jpackage/Shattered Pixel Dungeon Linux.zip" dist/
           ls -la dist
 
       - name: Create GitHub Release
