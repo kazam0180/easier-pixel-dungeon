@@ -39,10 +39,19 @@ exec "$APPIMAGE_APPDIR/lib/shatteredpd/bin/Easier Pixel Dungeon" "$@"
 EOF
 chmod +x /work/AppDir/bin/shatteredpd
 
+echo "==> [AppImage] Determining version"
+APP_VERSION=$(awk -F"'" '/appVersionName *=/{print $2; exit}' /work/build.gradle)
+if [ -z "$APP_VERSION" ]; then
+	echo "ERROR: Could not determine app version from build.gradle"
+	exit 1
+fi
+echo "App version: $APP_VERSION"
+
 ./get-debloated-pkgs.sh --add-common --prefer-nano
 
 echo "==> [AppImage] Deploying with quick-sharun"
 cd /work
+VERSION="$APP_VERSION" \
 DESKTOP=/work/.github/assets/shatteredpd.desktop \
 ICON=/work/desktop/src/main/assets/icons/icon_256.png \
 APPDIR=/work/AppDir \

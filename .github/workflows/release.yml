@@ -25,7 +25,6 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: gradle
-          cache-jdk: true
 
       - name: Cache Android SDK components
         uses: actions/cache@v6
@@ -39,7 +38,7 @@ jobs:
             android-sdk-${{ runner.os }}-
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: Determine release tag
         run: |
@@ -112,7 +111,7 @@ jobs:
           ls -la dist
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ env.RELEASE_TAG }}
           name: Release ${{ env.RELEASE_TAG }}
