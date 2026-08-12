@@ -13,14 +13,16 @@ pacman -S --noconfirm --needed \
 	xorg-server-xvfb \
 	strace \
 	patchelf \
-	libpulse \
-	libxkbcommon \
-	wayland
 
 echo "==> [AppImage] Installing jpackage image to /usr/lib/shatteredpd"
 rm -rf /usr/lib/shatteredpd
 cp -a "/work/desktop/build/jpackage/Easier Pixel Dungeon" /usr/lib/shatteredpd
 chmod -R u+w /usr/lib/shatteredpd
+
+echo "==> [AppImage] Fetching get-debloated-pkgs"
+wget -qO /work/get-debloated-pkgs.sh \
+	https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/get-debloated-pkgs.sh
+chmod +x /work/get-debloated-pkgs.sh
 
 echo "==> [AppImage] Fetching quick-sharun"
 wget -qO /work/quick-sharun.sh \
