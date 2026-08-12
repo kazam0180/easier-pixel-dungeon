@@ -47,7 +47,8 @@ jobs:
           if [ "${{ github.event_name }}" = "push" ]; then
             echo "RELEASE_TAG=${{ github.ref_name }}" >> "$GITHUB_ENV"
           else
-            echo "RELEASE_TAG=$(date +%Y.%m.%d)" >> "$GITHUB_ENV"
+            VERSION=$(sed -n "s/^[[:space:]]*appVersionName[[:space:]]*=[[:space:]]*'\([^']*\)'.*/\1/p" build.gradle)
+            echo "RELEASE_TAG=${VERSION}@$(date +%Y.%m.%d)" >> "$GITHUB_ENV"
           fi
           echo "Building release for tag: ${RELEASE_TAG}"
 
