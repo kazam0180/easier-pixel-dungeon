@@ -72,6 +72,9 @@ public class Heap implements Bundlable {
 	public Type type = Type.HEAP;
 	
 	public int pos = 0;
+
+	//how many times remaining that a shop item can be purchased (1 = normal behavior)
+	public int shopStock = 1;
 	
 	public ItemSprite sprite;
 	public boolean seen = false;
@@ -422,6 +425,7 @@ public class Heap implements Bundlable {
 	private static final String HAUNTED	= "haunted";
 	private static final String AUTO_EXPLORED	= "auto_explored";
 	private static final String HIDDEN	= "hidden";
+	private static final String SHOP_STOCK	= "shop_stock";
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -448,6 +452,7 @@ public class Heap implements Bundlable {
 		haunted = bundle.getBoolean( HAUNTED );
 		autoExplored = bundle.getBoolean( AUTO_EXPLORED );
 		hidden = bundle.getBoolean( HIDDEN );
+		shopStock = bundle.contains( SHOP_STOCK ) ? bundle.getInt( SHOP_STOCK ) : 1;
 	}
 
 	@Override
@@ -459,6 +464,7 @@ public class Heap implements Bundlable {
 		bundle.put( HAUNTED, haunted );
 		bundle.put( AUTO_EXPLORED, autoExplored );
 		bundle.put( HIDDEN, hidden );
+		bundle.put( SHOP_STOCK, shopStock );
 	}
 	
 }

@@ -81,10 +81,24 @@ public class InventoryPane extends Component {
 	private ArrayList<BagButton> bags;
 
 	public static final int WIDTH = 205;
-	public static final int HEIGHT = 82;
 
 	private static final int SLOT_WIDTH = 17;
 	private static final int SLOT_HEIGHT = 24;
+
+	private static final int BAG_SLOTS_PER_ROW = (WIDTH - SLOT_WIDTH - 4) / (SLOT_WIDTH + 1) + 1;
+
+	private static int neededBagSlots(){
+		if (Dungeon.hero == null || Dungeon.hero.belongings == null || Dungeon.hero.belongings.backpack == null){
+			return 2 * BAG_SLOTS_PER_ROW;
+		}
+		return Dungeon.hero.belongings.backpack.capacity();
+	}
+
+	private static int neededPaneHeight(int bagSlots){
+		int rows = (bagSlots + BAG_SLOTS_PER_ROW - 1) / BAG_SLOTS_PER_ROW;
+		rows = Math.max(2, rows);
+		return 57 + (rows - 1) * (SLOT_HEIGHT + 1);
+	}
 
 	private WndBag.ItemSelector selector;
 
@@ -176,7 +190,7 @@ public class InventoryPane extends Component {
 		add(promptTxt);
 
 		bagItems = new ArrayList<>();
-		for (int i = 0; i < 20; i++){
+		for (int i = 0; i < neededBagSlots(); i++){
 			InventorySlot btn = new InventoryPaneSlot(null);
 			bagItems.add(btn);
 			add(btn);
@@ -200,13 +214,13 @@ public class InventoryPane extends Component {
 		updateInventory();
 
 		width = WIDTH;
-		height = HEIGHT;
+		height = neededPaneHeight(bagItems.size());
 	}
 
 	@Override
 	protected void layout() {
 		width = WIDTH;
-		height = HEIGHT;
+		height = neededPaneHeight(bagItems.size());
 
 		bg.x = x;
 		bg.y = y;
@@ -311,7 +325,7 @@ public class InventoryPane extends Component {
 		}
 
 		int j = 0;
-		for (int i = 0; i < 20; i++){
+		for (int i = 0; i < bagItems.size(); i++){
 			if (i == 0 && lastBag != stuff.backpack){
 				bagItems.get(i).item(lastBag);
 				continue;

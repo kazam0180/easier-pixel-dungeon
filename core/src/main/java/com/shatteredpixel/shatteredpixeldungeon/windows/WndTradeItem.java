@@ -290,16 +290,31 @@ public class WndTradeItem extends WndInfoItem {
 	}
 	
 	private void buy( Heap heap ) {
-		
-		Item item = heap.pickUp();
+
+		Item item = heap.peek();
 		if (item == null) return;
-		
+
 		int price = Shopkeeper.sellPrice( item );
+		if (price > Dungeon.gold) return;
+
+		//keep a duplicate of the item to restock the shop if there are purchases remaining
+		Item restock = heap.shopStock > 1 ? item.duplicate() : null;
+
+		item = heap.pickUp();
+		if (item == null) return;
+
 		Dungeon.gold -= price;
 		Catalog.countUses(Gold.class, price);
-		
+
 		if (!item.doPickUp( Dungeon.hero )) {
 			Dungeon.level.drop( item, heap.pos ).sprite.drop();
+		}
+
+		if (restock != null){
+			heap.shopStock--;
+			Heap newHeap = Dungeon.level.drop( restock, heap.pos );
+			newHeap.type = Heap.Type.FOR_SALE;
+			newHeap.shopStock = heap.shopStock;
 		}
 	}
 }

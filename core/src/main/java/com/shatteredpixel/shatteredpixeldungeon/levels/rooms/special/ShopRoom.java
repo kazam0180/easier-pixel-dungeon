@@ -44,7 +44,7 @@ import com.shatteredpixel.shatteredpixeldungeon.items.bags.PotionBandolier;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.ScrollHolder;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.VelvetPouch;
 import com.shatteredpixel.shatteredpixeldungeon.items.bombs.Bomb;
-import com.shatteredpixel.shatteredpixeldungeon.items.food.SmallRation;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
 import com.shatteredpixel.shatteredpixeldungeon.items.potions.PotionOfHealing;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMagicMapping;
@@ -195,7 +195,9 @@ public class ShopRoom extends SpecialRoom {
 				Level.set(cell, Terrain.GRASS, level);
 				GameScene.updateMap(cell);
 			}
-			level.drop( item, cell ).type = Heap.Type.FOR_SALE;
+			Heap heap = level.drop( item, cell );
+			heap.type = Heap.Type.FOR_SALE;
+			heap.shopStock = 3;
 			itemsToSpawn.remove(item);
 		}
 
@@ -205,7 +207,9 @@ public class ShopRoom extends SpecialRoom {
 				int cell = level.pointToCell(p);
 				if ((level.map[cell] == Terrain.EMPTY_SP || level.map[cell] == Terrain.EMPTY)
 						&& level.heaps.get(cell) == null && level.findMob(cell) == null){
-					level.drop( itemsToSpawn.remove(0), level.pointToCell(p) ).type = Heap.Type.FOR_SALE;
+					Heap heap = level.drop( itemsToSpawn.remove(0), level.pointToCell(p) );
+					heap.type = Heap.Type.FOR_SALE;
+					heap.shopStock = 3;
 				}
 				if (itemsToSpawn.isEmpty()){
 					break;
@@ -288,8 +292,8 @@ public class ShopRoom extends SpecialRoom {
 					Generator.randomUsingDefaults( Generator.Category.SCROLL ) );
 
 
-		itemsToSpawn.add( new SmallRation() );
-		itemsToSpawn.add( new SmallRation() );
+		itemsToSpawn.add( new Food() );
+		itemsToSpawn.add( new Food() );
 		
 		switch (Random.Int(4)){
 			case 0:
