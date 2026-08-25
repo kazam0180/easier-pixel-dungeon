@@ -58,7 +58,7 @@ public class HornOfPlenty extends Artifact {
 	{
 		image = ItemSpriteSheet.ARTIFACT_HORN1;
 
-		levelCap = 10;
+		levelCap = 30;
 
 		charge = 0;
 		partialCharge = 0;
