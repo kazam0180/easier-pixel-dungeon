@@ -233,12 +233,12 @@ public class HornOfPlenty extends Artifact {
 		} else if (food instanceof MeatPie){
 			storedFoodEnergy += Hunger.HUNGRY;
 		}
-		if (storedFoodEnergy >= Hunger.HUNGRY){
-			int upgrades = storedFoodEnergy / (int)Hunger.HUNGRY;
+		if (storedFoodEnergy >= Hunger.HUNGRY / 2){
+			int upgrades = storedFoodEnergy / ((int)Hunger.HUNGRY / 2);
 			upgrades = Math.min(upgrades, levelCap - level());
 			upgrade(upgrades);
 			Catalog.countUse(HornOfPlenty.class);
-			storedFoodEnergy -= upgrades * Hunger.HUNGRY;
+			storedFoodEnergy -= upgrades * (Hunger.HUNGRY / 2);
 			if (level() == levelCap){
 				storedFoodEnergy = 0;
 				GLog.p( Messages.get(this, "maxlevel") );
