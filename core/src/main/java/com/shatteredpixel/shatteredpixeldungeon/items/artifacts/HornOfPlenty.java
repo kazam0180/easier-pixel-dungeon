@@ -224,7 +224,7 @@ public class HornOfPlenty extends Artifact {
 	}
 	
 	public void gainFoodValue( Food food ){
-		if (level() >= 10) return;
+		if (level() >= levelCap) return;
 		
 		storedFoodEnergy += food.energy;
 		//Pasties and phantom meat are worth two upgrades instead of 1.5, meat pies are worth 4 instead of 3!
@@ -235,11 +235,11 @@ public class HornOfPlenty extends Artifact {
 		}
 		if (storedFoodEnergy >= Hunger.HUNGRY){
 			int upgrades = storedFoodEnergy / (int)Hunger.HUNGRY;
-			upgrades = Math.min(upgrades, 10 - level());
+			upgrades = Math.min(upgrades, levelCap - level());
 			upgrade(upgrades);
 			Catalog.countUse(HornOfPlenty.class);
 			storedFoodEnergy -= upgrades * Hunger.HUNGRY;
-			if (level() == 10){
+			if (level() == levelCap){
 				storedFoodEnergy = 0;
 				GLog.p( Messages.get(this, "maxlevel") );
 			} else {
