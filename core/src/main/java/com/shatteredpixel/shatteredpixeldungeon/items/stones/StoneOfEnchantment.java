@@ -67,8 +67,8 @@ public class StoneOfEnchantment extends InventoryStone {
 			((Weapon)item).enchant((Weapon.Enchantment) chosen);
 			
 		} else {
-			
-			((Armor)item).inscribe();
+
+			((Armor)item).inscribe((Armor.Glyph) chosen);
 			
 		}
 		
