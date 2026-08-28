@@ -53,7 +53,7 @@ public class StoneOfEnchantment extends InventoryStone {
 	
 	@Override
 	protected void onItemSelected(Item item) {
-		curUser.sprite.parent.add(new WndChooseEnchant(item, chosen -> applyEnchant(item, chosen))
+		curUser.sprite.parent.add(new WndChooseEnchant(item, chosen -> applyEnchant(item, chosen)))
     }
 	private void applyEnchant(Item item, Object chosen) {
 		if (!anonymous) {
