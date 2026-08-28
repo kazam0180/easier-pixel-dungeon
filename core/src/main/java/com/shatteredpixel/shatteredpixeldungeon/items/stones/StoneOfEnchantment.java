@@ -33,6 +33,7 @@ import com.shatteredpixel.shatteredpixeldungeon.journal.Catalog;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
+import com.shatteredpixel.shatteredpixeldungeon.windows.WndChooseEnchant;
 
 public class StoneOfEnchantment extends InventoryStone {
 	
@@ -47,9 +48,14 @@ public class StoneOfEnchantment extends InventoryStone {
 	protected boolean usableOnItem(Item item) {
 		return ScrollOfEnchantment.enchantable(item);
 	}
+
+	
 	
 	@Override
 	protected void onItemSelected(Item item) {
+		curUser.sprite.parent.add(new WndChooseEnchant(item, chosen -> applyEnchant(item, chosen))
+    }
+	private void applyEnchant(Item item, Object chosen) {
 		if (!anonymous) {
 			curItem.detach(curUser.belongings.backpack);
 			Catalog.countUse(getClass());
@@ -58,7 +64,7 @@ public class StoneOfEnchantment extends InventoryStone {
 		
 		if (item instanceof Weapon) {
 			
-			((Weapon)item).enchant();
+			((Weapon)item).enchant((Weapon.Enchantment) chosen);
 			
 		} else {
 			
