@@ -4,7 +4,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
-import com.shatteredpixel.shatteredpixeldungeon.scenes.PixelScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.RedButton;
 import com.shatteredpixel.shatteredpixeldungeon.ui.ScrollPane;
 import com.shatteredpixel.shatteredpixeldungeon.ui.Window;
@@ -38,10 +37,7 @@ public class WndChooseEnchant extends Window {
 			options.addAll(Arrays.asList(Armor.Glyph.rare));
 		}
 
-		//figure out full content height before we know the final window height
-		int contentHeight = options.size() * (BTN_HEIGHT + GAP);
-		int winHeight = Math.min(MAX_HEIGHT, contentHeight);
-
+		int winHeight = Math.min(MAX_HEIGHT, options.size() * (BTN_HEIGHT + GAP));
 		resize(WIDTH, winHeight);
 
 		ScrollPane pane = new ScrollPane(new Component());
@@ -69,6 +65,7 @@ public class WndChooseEnchant extends Window {
 			}
 		}
 
-		content.setSize(WIDTH, y);
+		content.setRect(0, 0, WIDTH, y);
+		pane.setRect(0, 0, WIDTH, winHeight); // re-layout now that content's real height is known
 	}
 }
