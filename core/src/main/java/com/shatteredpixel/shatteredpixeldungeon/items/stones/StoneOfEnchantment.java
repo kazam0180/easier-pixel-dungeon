@@ -34,6 +34,7 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndChooseEnchant;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 
 public class StoneOfEnchantment extends InventoryStone {
 	
@@ -53,8 +54,8 @@ public class StoneOfEnchantment extends InventoryStone {
 	
 	@Override
 	protected void onItemSelected(Item item) {
-		curUser.sprite.parent.add(new WndChooseEnchant(item, chosen -> applyEnchant(item, chosen)));
-    }
+		GameScene.show(new WndChooseEnchant(item, chosen -> applyEnchant(item, chosen)));
+	}
 	private void applyEnchant(Item item, Object chosen) {
 		if (!anonymous) {
 			curItem.detach(curUser.belongings.backpack);
