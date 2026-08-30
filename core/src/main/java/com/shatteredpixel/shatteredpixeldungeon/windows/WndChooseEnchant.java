@@ -17,7 +17,7 @@ public class WndChooseEnchant extends Window {
 	private static final int WIDTH      = 120;
 	private static final int MAX_HEIGHT = 160;
 	private static final int BTN_HEIGHT = 18;
-	private static final int GAP        = 2;
+	private static final int GAP        = 4;
 
 	public interface Listener {
 		void onEnchantChosen(Object enchant);
