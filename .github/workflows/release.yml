@@ -108,7 +108,7 @@ jobs:
           cp android/build/outputs/bundle/release/*.aab dist/
           cp desktop/build/libs/*.jar dist/
           cp "desktop/build/jpackage/Easier Pixel Dungeon Linux.zip" dist/
-          for f in "$GITHUB_WORKSPACE"/*.AppImage* "$GITHUB_WORKSPACE"/*zsync*; do
+          for f in "$GITHUB_WORKSPACE"/*.AppImage "$GITHUB_WORKSPACE"/*.zsync; do
             cp "$f" dist/
           done
           ls -la dist
@@ -118,6 +118,6 @@ jobs:
         with:
           tag_name: ${{ env.RELEASE_TAG }}
           name: Release ${{ env.RELEASE_TAG }}
-          generate_release_notes: true
+          generate_release_notes: false
           files: dist/*
 
